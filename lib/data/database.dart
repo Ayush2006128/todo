@@ -9,8 +9,8 @@ class ToDoDataBase {
   // run this method if this is the 1st time ever opening this app
   void createInitialData() {
     toDoList = [
-      ["Make Tutorial", false],
-      ["Do Exercise", false],
+      ["Swipe to delete", false],
+      ["Tap + to add new task", false],
     ];
   }
 
