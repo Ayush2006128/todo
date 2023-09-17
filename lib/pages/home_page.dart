@@ -74,32 +74,27 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          stops: [0.1,0.5,0.9,0.7],
-          colors: [
-            Color.fromARGB(255, 187, 1, 255),
-            Color.fromARGB(255, 255, 1, 107),
-            Color.fromARGB(255, 255, 1, 1),
-            Color.fromARGB(255, 255, 1, 242)
-          ]
-        )
-      ),
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.purple[200],
+      appBar: AppBar(
         backgroundColor: Colors.purple[200],
-        appBar: AppBar(
-          backgroundColor: Colors.purple[200],
-          title: Text('TO DO'),
-          elevation: 0,
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: createNewTask,
-          child: Icon(Icons.add),
-        ),
-        body: ListView.builder(
+        title: const Text('TO DO'),
+        elevation: 0,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewTask,
+        child: const Icon(Icons.add),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+              Colors.pink,
+              Colors.purple,
+            ])),
+        child: ListView.builder(
           itemCount: db.toDoList.length,
           itemBuilder: (context, index) {
             return ToDoTile(
