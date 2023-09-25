@@ -1,48 +1,24 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:flutter_push_notifications/utils/download_util.dart';
-import 'package:rxdart/subjects.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
-class NotificationService {
-  NotificationService();
+class NotificationApi {
+  static final _notification = FlutterLocalNotificationsPlugin();
 
-  final _localNotifications = FlutterLocalNotificationsPlugin();
-  final BehaviorSubject<String> behaviorSubject = BehaviorSubject();
-
-  Future<void> initializePlatformNotifications() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_stat_justwater');
-
-    final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
-            requestSoundPermission: true,
-            requestBadgePermission: true,
-            requestAlertPermission: true,
-            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-
-    await _localNotifications.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+  static Future _notificationDetails() async {
+    return NotificationDetails(
+        android: AndroidNotificationDetails(
+          'channel id',
+          'channel name',
+          'channel description',
+          importance: Importance.max,
+        ),
+        iOS: IOSNotificationDetails());
   }
 
-  void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) {
-    print('id $id');
-  }
-
-  void selectNotification(String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      behaviorSubject.add(payload);
-    }
-  }
+  static Future showNotification({
+    int id = 0,
+    String? title,
+    String? body,
+    String? payload,
+  }) async =>
+      _notification.show(id, title, body, await _notificationDetails());
 }
