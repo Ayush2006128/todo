@@ -42,6 +42,9 @@ class _HomePageState extends State<HomePage> {
 
   // save new task
   void saveNewTask() {
+    if (_controller.text==""){
+      db.toDoList.add(["Please type something in textbox", false]);
+    }
     setState(() {
       db.toDoList.add([_controller.text, false]);
       _controller.clear();
@@ -83,6 +86,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNewTask,
+        backgroundColor: Colors.pink[300],
         child: const Icon(Icons.add),
       ),
       body: Container(
@@ -97,12 +101,12 @@ class _HomePageState extends State<HomePage> {
         child: ListView.builder(
           itemCount: db.toDoList.length,
           itemBuilder: (context, index) {
-            return ToDoTile(
-              taskName: db.toDoList[index][0],
-              taskCompleted: db.toDoList[index][1],
-              onChanged: (value) => checkBoxChanged(value, index),
-              deleteFunction: (context) => deleteTask(index),
-            );
+              return ToDoTile(
+                taskName: db.toDoList[index][0],
+                taskCompleted: db.toDoList[index][1],
+                onChanged: (value) => checkBoxChanged(value, index),
+                deleteFunction: (context) => deleteTask(index),
+              );
           },
         ),
       ),
